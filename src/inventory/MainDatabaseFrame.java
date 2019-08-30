@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 public class MainDatabaseFrame extends javax.swing.JFrame {
     CreateNewProjectFrame createnewprojectframe = new CreateNewProjectFrame();
     private DefaultTableModel model;
+    private String globalDatabaseName;
 
     /**
      * Creates new form MainDatabaseFrame
@@ -28,6 +29,7 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
     
     public MainDatabaseFrame(String companyName, String databaseName, String userName, String password) {
         
+        globalDatabaseName = databaseName;
         MysqlCon mysqlcon = new MysqlCon(userName, password, databaseName);
         
         String data[][] = {{"Vinod","MCA","Computer"},
@@ -82,6 +84,7 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(globalDatabaseName);
 
         jToolBar1.setRollover(true);
 
