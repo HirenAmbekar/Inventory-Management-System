@@ -23,11 +23,15 @@ public class Inventory {
 }
 
 
-class MysqlCon{  
+class MysqlCon{ 
+    
+    Connection connection;
+    Statement statement;
+    ResultSet resultSet;
     public MysqlCon(String user, String password, String databaseName) {  
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
-               Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/"+databaseName,user,password);  
+               connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+databaseName,user,password);  
 //here sonoo is database name, root is username and password
 //            DatabaseMetaData meta = con.getMetaData();
 //            ResultSet rs1 = meta.getTables(null, null, null,new String[] {"TABLE"});
@@ -36,14 +40,14 @@ class MysqlCon{
 //            {
 //            System.out.println(rs1.getString("TABLE_NAME"));
 //            }
-               Statement st = con.createStatement();
+               statement = connection.createStatement();
                String q = "show tables";
-               ResultSet rs = st.executeQuery(q);
-               while(rs.next())
+               resultSet = statement.executeQuery(q);
+               while(resultSet.next())
                {
-                   System.out.println(rs.getString(1));
+                   System.out.println(resultSet.getString(1));
                }
-            con.close();  
+            connection.close();  
         }catch(Exception e){ System.out.println(e);
         
     }  
