@@ -5,6 +5,9 @@
  */
 package inventory;
 
+import java.sql.Array;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -15,9 +18,14 @@ import javax.swing.table.TableModel;
  */
 public class MainDatabaseFrame extends javax.swing.JFrame {
     CreateNewProjectFrame createnewprojectframe = new CreateNewProjectFrame();
-    private DefaultTableModel model;
     private String globalDatabaseName;
-
+    private String tableNames[];
+    private String tableConfig[][];
+    private String colNames[];
+    private String colDataType[];
+    private Object tableData[][];
+    private int tableCount = 0;
+    private MysqlCon mysqlcon;
     /**
      * Creates new form MainDatabaseFrame
      */
@@ -27,17 +35,33 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
         setUndecorated(true);
     }
     
+    public void retrievePanelConfig(String tableName) {
+        tableConfig = mysqlcon.retrieveTableConfig(tableName);
+        colNames = mysqlcon.retrieveColumnnNames(tableName);
+        tableData = mysqlcon.retrieveTableData(tableName, tableConfig, colNames);
+    }
+    
     public MainDatabaseFrame(String companyName, String databaseName, String userName, String password) {
         
         globalDatabaseName = databaseName;
-        MysqlCon mysqlcon = new MysqlCon(userName, password, databaseName);
+        mysqlcon = new MysqlCon(userName, password, databaseName);
+        tableNames = mysqlcon.retrieveTableNames();
+        tableCount = mysqlcon.getTableCount();
+        tableConfig = mysqlcon.retrieveTableConfig("customers");
         
         String data[][] = {{"Vinod","MCA","Computer"},
   {"Deepak","PGDCA","History"},
   {"Ranjan","M.SC.","Biology"},
   {"Radha","BCA","Computer"}};
-  String col[] = {"Name","Course","Subject"};
-  model = new DefaultTableModel(data,col);
+  colNames = mysqlcon.retrieveColumnnNames("customers");
+  for (int i=0; i<colNames.length; i++) {
+    System.out.println(colNames[i]);
+  }
+  System.out.println("THis end");
+  
+  System.out.println(tableCount);
+  
+  tableData = mysqlcon.retrieveTableData("customers", tableConfig, colNames);
         
         initComponents();
         setExtendedState(MainDatabaseFrame.MAXIMIZED_BOTH);
@@ -62,12 +86,17 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jToolBar2 = new javax.swing.JToolBar();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -98,26 +127,14 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
         jLabel2.setText("jLabel2");
 
-        jTable3.setModel(model);
-        jScrollPane3.setViewportView(jTable3);
+        for (int count=0; count < tableCount; count++) {
+            JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
+            retrievePanelConfig(tableNames[count]);
 
-        jToolBar2.setRollover(true);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
-            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            // Column Names
+            jScrollPane1.setViewportView(new JTable(tableData, colNames));
+            jTabbedPane1.addTab(tableNames[count], jScrollPane1);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -126,14 +143,14 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel2)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 297, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -144,11 +161,36 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jMenu1.setText("File");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("New Project");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("New Table");
+        jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setText("Open Project");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Close Project");
+        jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setText("Save");
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setText("Exit");
+        jMenu1.add(jMenuItem6);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -216,13 +258,20 @@ public class MainDatabaseFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
+
 }
+    
