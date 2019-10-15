@@ -87,11 +87,11 @@ public class CreateNewProjectFrame extends javax.swing.JFrame {
 
         jTextField1.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
         jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jTextField1InputMethodTextChanged(evt);
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 jTextField1CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField1InputMethodTextChanged(evt);
             }
         });
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -144,10 +144,10 @@ public class CreateNewProjectFrame extends javax.swing.JFrame {
         jTextField4.setText("Hiren@09");
 
         jLabel5.setFont(new java.awt.Font("DejaVu Sans", 1, 10)); // NOI18N
-        jLabel5.setText("Note:-This will be your default database user name");
+        jLabel5.setText("Note:-Enter your default MySql Server user name");
 
         jLabel6.setFont(new java.awt.Font("DejaVu Sans", 1, 10)); // NOI18N
-        jLabel6.setText("Note:-This will be your default database password");
+        jLabel6.setText("Note:-Enter your default MySql Server password");
 
         jButton3.setText("Cancel");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {

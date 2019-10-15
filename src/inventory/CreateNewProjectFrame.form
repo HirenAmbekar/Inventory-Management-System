@@ -125,8 +125,8 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jTextField1InputMethodTextChanged"/>
         <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jTextField1CaretPositionChanged"/>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jTextField1InputMethodTextChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
       </Events>
     </Component>
@@ -208,7 +208,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="10" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Note:-This will be your default database user name"/>
+        <Property name="text" type="java.lang.String" value="Note:-Enter your default MySql Server user name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
@@ -216,7 +216,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="10" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Note:-This will be your default database password"/>
+        <Property name="text" type="java.lang.String" value="Note:-Enter your default MySql Server password"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
